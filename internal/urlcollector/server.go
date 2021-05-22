@@ -20,10 +20,11 @@ func RunServer() {
 	r.Get("/pictures", func(w http.ResponseWriter, r *http.Request) {
 		startDate := r.URL.Query().Get("start_date")
 		endDate := r.URL.Query().Get("end_date")
-		err := addToQueue(startDate, endDate)
+		_, err := getDatesList(startDate, endDate)
 		if err != nil {
 			w.Write([]byte(err.Error()))
 		}
+
 	})
 
 	http.ListenAndServe(":80", r)

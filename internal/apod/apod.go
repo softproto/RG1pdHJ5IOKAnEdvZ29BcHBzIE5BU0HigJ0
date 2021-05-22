@@ -43,8 +43,9 @@ func UnmarshallApodError(responce []byte) (resp *ApodError, err error) {
 	return resp, err
 }
 
-func SendRequest(apiKey, date string) {
-	fmt.Println("SendRequest()")
+func SendRequest(apiKey, date string, out chan string) {
+
+	//fmt.Println("SendRequest()")
 
 	client := &http.Client{}
 
@@ -58,6 +59,7 @@ func SendRequest(apiKey, date string) {
 	q.Add("api_key", apiKey)
 	q.Add("date", date)
 	req.URL.RawQuery = q.Encode()
+	// fmt.Println(req.URL.RawQuery)
 
 	// req.Header.Add("Accept", "text/html")
 	// req.Header.Add("User-Agent", "MSIE/15.0")
@@ -75,8 +77,6 @@ func SendRequest(apiKey, date string) {
 		return
 	}
 
-
-
 	s := resp.StatusCode
 
 	if s == 200 {
@@ -85,13 +85,13 @@ func SendRequest(apiKey, date string) {
 			log.Println(err)
 			return
 		}
-		fmt.Println(a.Title)
-		fmt.Println(a.Url)
-	}else{
-		fmt.Println(resp.StatusCode)
-		fmt.Println(http.StatusText(resp.StatusCode))
+		// fmt.Println(a.Title)
+	//	fmt.Println(a.Url)
+		out <- a.Url
+	} else {
+		// fmt.Println(resp.StatusCode)
+		// fmt.Println(http.StatusText(resp.StatusCode))
 		fmt.Println(resp.Status)
 	}
-	
 
 }
