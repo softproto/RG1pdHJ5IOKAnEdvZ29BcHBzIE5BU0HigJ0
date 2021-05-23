@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
 	"github.com/go-chi/chi/v5"
 )
 
@@ -13,7 +14,7 @@ var out struct {
 	Errors []string `json:",omitempty"`
 }
 
-func RunServer(apiKey string) {
+func RunServer(apiKey string, port string) {
 	fmt.Println("RunServer()")
 
 	r := chi.NewRouter()
@@ -37,5 +38,5 @@ func RunServer(apiKey string) {
 		w.Write(b)
 	})
 
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(port, r)
 }

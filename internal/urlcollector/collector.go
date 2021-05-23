@@ -12,11 +12,11 @@ import (
 )
 
 const (
-	dateLayout       = "2006-01-02"
-	maxConnLimit     = 2
-	transportTimeout = 5
-	handshakeTimeout = 5
-	clientTimeout    = 10
+	dateLayout         = "2006-01-02"
+	concurrentRequests = 2
+	transportTimeout   = 5
+	handshakeTimeout   = 5
+	clientTimeout      = 10
 )
 
 type collectedData struct {
@@ -69,7 +69,7 @@ func runCollector(apiKey, start_date, end_date string) *collectedData {
 	d := make(chan string)
 
 	var wg sync.WaitGroup
-	for i := 0; i < maxConnLimit; i++ {
+	for i := 0; i < concurrentRequests; i++ {
 		wg.Add(1)
 		go urlsFetcher(d, apiKey, &wg, &cd)
 	}

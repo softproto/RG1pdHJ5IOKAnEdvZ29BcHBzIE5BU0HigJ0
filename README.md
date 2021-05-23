@@ -32,62 +32,23 @@ As the provided date range in a single request might be broad, the NASA API shou
 concurrently. However, in order not to be recognized as a malicious user, a limit of concurrent
 requests to this external API must exist. Bear in mind, that this limit should never be exceeded
 regardless of how many concurrent requests is the url-collector receiving.
-
-## Non-functional
-There should be some unit tests - no need to test everything, pick just one component and test it
-thoroughly.
-start_date and end_date parameters should have some kind of validation - think of possible
-corner cases (for example: start_date should be earlier than end_date )
-The application should be configurable via environment variables. We should be able to provide
-following variables on application startup:
-1. api_key used for NASA API requests (variable name API_KEY, default: DEMO_KEY)
-2. Limit of concurrent requests to NASA API (variable name CONCURRENT_REQUESTS, default: 5)
-3. A port the server is running on (variable name PORT, default: 8080)
-Provide a Dockerfile that can be used to build and run the application without having the Go
-toolchain installed locally.
-
-
-# NASA API
-
-An example of usage of the NASA APOD API endpoint to be used in the project.
-
-Sample request:
-
-        GET https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2019-12-06
-        
-note that DEMO_KEY is a valid key that can be used in development process
-
-Sample response:
-
-        HTTP/1.1 200 OK
-        Connection: keep-alive
-        Content-Encoding: gzip
-        Content-Type: application/json
-        Date: Mon, 10 Aug 2020 16:44:34 GMT
-        X-RateLimit-Limit: 40
-        X-RateLimit-Remaining: 33
+## Issues found
+Response code 400:
         {
-         "copyright": "Amir H. Abolfath",
-         "date": "2019-12-06",
-         "explanation": "(...)",
-         "hdurl": "https://apod.nasa.gov/apod/image/1912/TaurusAbolfath.jpg",
-         "media_type": "image",
-         "service_version": "v1",
-         "title": "Pleiades to Hyades",
-         "url": "https://apod.nasa.gov/apod/image/1912/TaurusAbolfath1024.jpg"
+        "code": 400,
+        "msg": "Bad Request: incorrect field passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'",
+        "service_version": "v1"
         }
-More details here (https://api.nasa.gov/).
+Response code 403
+        {
+        "error": {
+                "code": "API_KEY_INVALID",
+                "message": "An invalid api_key was supplied. Get one at https://api.nasa.gov:443"
+        }
+        }
 
+# Demo results
 
-# Place for discussion
-
-An interesting part of this project is that it can be easily extended with some additional features or
-changes to the current behaviour. All the points below are not to be implemented, but rather to be
-thought about. Take a minute and think about how would your codebase change in following situations:
-What if we were to change the NASA API to some other images provider?
-What if, apart from using NASA API, we would want to have another microservice fetching urls from
-European Space Agency. How much code could be reused?
-What if we wanted to add some more query params to narrow down lists of urls - for example,
-selecting only images taken by certain person. (field copyright in the API response)
-
-<img src="./images/make-run.png">
+<img src="./images/res_URLs.png">
+<img src="./images/res_Errors.png">
+<img src="./images/res_URLs and Errors.png">
