@@ -1,6 +1,7 @@
 # How to run
 
 docker build . -t gogospace
+
 docker run -p 8080:8080 gogospace
 
 

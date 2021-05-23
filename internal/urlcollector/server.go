@@ -37,6 +37,6 @@ func RunServer(apiKey string, port string) {
 		}
 		w.Write(b)
 	})
-
-	http.ListenAndServe(port, r)
+	addr := ":" + port
+	http.ListenAndServe(addr, r)
 }
