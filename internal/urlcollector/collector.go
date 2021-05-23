@@ -91,13 +91,13 @@ func urlsFetcher(d chan string, apiKey string, wg *sync.WaitGroup, cd *collected
 	defer wg.Done()
 
 	for date := range d {
-		SendRequest(apiKey, date, cd)
+		sendRequest(apiKey, date, cd)
 	}
 }
 
-func SendRequest(apiKey, date string, cd *collectedData) {
-	fmt.Println("SendRequest()")
-	defer fmt.Println("SendRequest() done")
+func sendRequest(apiKey, date string, cd *collectedData) {
+	fmt.Println("sendRequest()")
+	defer fmt.Println("sendRequest() done")
 
 	client := customHTTPClient(transportTimeout, handshakeTimeout, clientTimeout)
 
@@ -132,7 +132,7 @@ func SendRequest(apiKey, date string, cd *collectedData) {
 			return
 		}
 		cd.mutex.Lock()
-		cd.urls = append(cd.urls, a.Url)
+		cd.urls = append(cd.urls, a.URL)
 		cd.mutex.Unlock()
 	} else {
 		collectError(date, errors.New(resp.Status), cd)

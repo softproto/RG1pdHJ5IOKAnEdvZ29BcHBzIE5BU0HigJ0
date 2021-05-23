@@ -1,3 +1,9 @@
+# How to run
+
+docker build . -t gogospace
+docker run -p 8080:8080 gogospace
+
+
 # Description
 
 Let’s say GogoApps is building an awesome space visualization tool. In order to accomplish this task a
@@ -7,7 +13,6 @@ A microservice that is able to download media files from provided urls and store
 internal storage (called media-downloader)
 A microservice that would prepare a list of urls for the first microservice to use (called url-collector)
 While your teammates are building the media-downloader, your task is to create the latter - the urlcollector. You will be building a microservice responsible for gathering image URLs from the open NASA's APOD API.
-
 
 # Requirements
 
@@ -33,13 +38,18 @@ concurrently. However, in order not to be recognized as a malicious user, a limi
 requests to this external API must exist. Bear in mind, that this limit should never be exceeded
 regardless of how many concurrent requests is the url-collector receiving.
 ## Issues found
+- The Apod service does not provide an error result in a unified format
+
 Response code 400:
+```
         {
         "code": 400,
         "msg": "Bad Request: incorrect field passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'",
         "service_version": "v1"
         }
+```
 Response code 403
+
         {
         "error": {
                 "code": "API_KEY_INVALID",
@@ -47,8 +57,18 @@ Response code 403
         }
         }
 
-# Demo results
+## Demo results
+
+Successful request
 
 <img src="./images/res_URLs.png">
+
+
+The response contains errors
+
 <img src="./images/res_Errors.png">
+
+
+The response contains both errors and correct data
+
 <img src="./images/res_URLs and Errors.png">

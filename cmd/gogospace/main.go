@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gogoapps-nasa/internal/urlcollector"
+	"os"
 )
 
 const apiKey = "DEMO_KEY"
@@ -14,4 +15,8 @@ func main() {
 	urlcollector.RunServer(apiKey, port)
 
 	fmt.Println("main() end")
+
+	os.Setenv("FOO", "1")
+    fmt.Println("FOO:", os.Getenv("FOO"))
+//	path, exists := os.LookupEnv("PATH")
 }
