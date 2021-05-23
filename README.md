@@ -89,3 +89,5 @@ What if, apart from using NASA API, we would want to have another microservice f
 European Space Agency. How much code could be reused?
 What if we wanted to add some more query params to narrow down lists of urls - for example,
 selecting only images taken by certain person. (field copyright in the API response)
+
+<img src="./images/make-run.png">
