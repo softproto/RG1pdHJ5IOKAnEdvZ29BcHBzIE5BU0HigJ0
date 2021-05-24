@@ -5,7 +5,6 @@
 docker build . -t gogospace
 docker run -p 8080:8080 gogospace
 ```
-
 ## test
 ```
 go test -v ./...
@@ -44,7 +43,7 @@ As the provided date range in a single request might be broad, the NASA API shou
 concurrently. However, in order not to be recognized as a malicious user, a limit of concurrent
 requests to this external API must exist. Bear in mind, that this limit should never be exceeded
 regardless of how many concurrent requests is the url-collector receiving.
-### Note
+## Note
 - We are not using the Apod server's ability to handle a date range in a single request due to the Task Description.
 - Considering the fact that there can be both successful and unsuccessful requests for date range, the collected errors are contained in the same report.
 
@@ -54,26 +53,27 @@ regardless of how many concurrent requests is the url-collector receiving.
 - The Apod service does not provide an error result in a unified format. For this reason, we cannot correctly collect errors from the Apod server.
 
 Response code 400:
-
-        {
-        "code": 400,
-        "msg": "Bad Request: incorrect field passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'",
-        "service_version": "v1"
-        }
+```
+{
+"code": 400,
+"msg": "Bad Request: incorrect field passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'",
+"service_version": "v1"
+}
+```
 
 Response code 403
-
-        {
-        "error": {
-                "code": "API_KEY_INVALID",
-                "message": "An invalid api_key was supplied. Get one at https://api.nasa.gov:443"
-        }
-        }
-
+```
+{
+"error": {
+"code": "API_KEY_INVALID",
+"message": "An invalid api_key was supplied. Get one at https://api.nasa.gov:443"
+}
+}
+```
 
 # Demo results
 
-Successful request
+- Successful request
 ```
 {
 "Urls": [
@@ -85,7 +85,7 @@ Successful request
 }
 ```
 
-The response contains errors
+- The response contains errors
 ```
 {
 "Errors": [
@@ -94,7 +94,7 @@ The response contains errors
 }
 ```
 
-The response contains both errors and correct data
+- The response contains both errors and correct data
 ```
 {
 "Urls": [
@@ -110,6 +110,6 @@ The response contains both errors and correct data
 }
 ```
 
-Demo screenshot
+- Demo screenshot
 
 <img src="./images/res_URLs and Errors.png">
