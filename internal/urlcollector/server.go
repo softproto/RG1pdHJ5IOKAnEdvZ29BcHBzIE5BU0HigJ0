@@ -1,20 +1,13 @@
 package urlcollector
 
 import (
-	// "context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 )
 
-var out struct {
-	URLs   []string `json:",omitempty"`
-	Errors []string `json:",omitempty"`
-}
-
-func RunServer(apiKey string, port string) {
+func RunServer(config *Config) {
 	fmt.Println("RunServer()")
 
 	r := chi.NewRouter()
@@ -27,16 +20,10 @@ func RunServer(apiKey string, port string) {
 		startDate := r.URL.Query().Get("start_date")
 		endDate := r.URL.Query().Get("end_date")
 
-		cd := runCollector(apiKey, startDate, endDate)
+		cd := runCollector(config, startDate, endDate)
 
-		out.URLs = cd.urls
-		out.Errors = cd.errors
-		b, err := json.Marshal(out)
-		if err != nil {
-			collectError("json.Marshal()", err, cd)
-		}
-		w.Write(b)
+		w.Write(*cd.json())
 	})
-	addr := ":" + port
+	addr := ":" + config.port
 	http.ListenAndServe(addr, r)
 }

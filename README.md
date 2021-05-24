@@ -1,8 +1,9 @@
 # How to run
 
+```
 docker build . -t gogospace
-
 docker run -p 8080:8080 gogospace
+```
 
 
 # Description
@@ -15,9 +16,9 @@ internal storage (called media-downloader)
 A microservice that would prepare a list of urls for the first microservice to use (called url-collector)
 While your teammates are building the media-downloader, your task is to create the latter - the urlcollector. You will be building a microservice responsible for gathering image URLs from the open NASA's APOD API.
 
+
 # Requirements
 
-## Functional
 The solution should consist of a HTTP server with one HTTP endpoint available. Endpoint should be
 exposed under following path:
 
@@ -38,17 +39,22 @@ As the provided date range in a single request might be broad, the NASA API shou
 concurrently. However, in order not to be recognized as a malicious user, a limit of concurrent
 requests to this external API must exist. Bear in mind, that this limit should never be exceeded
 regardless of how many concurrent requests is the url-collector receiving.
+### Note
+We are not using the Apod server's ability to handle a date range in a single request due to the Task Description.
+
+
 ## Issues found
+
 - The Apod service does not provide an error result in a unified format
 
 Response code 400:
-```
+
         {
         "code": 400,
         "msg": "Bad Request: incorrect field passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'",
         "service_version": "v1"
         }
-```
+
 Response code 403
 
         {
@@ -58,18 +64,46 @@ Response code 403
         }
         }
 
+
 ## Demo results
 
 Successful request
-
-<img src="./images/res_URLs.png">
-
+```
+{
+"Urls": [
+"https://apod.nasa.gov/apod/image/0104/distantsn_hst.jpg",
+"https://apod.nasa.gov/apod/image/0104/auroraiceland_shs_big.jpg",
+"https://apod.nasa.gov/apod/image/0104/quiddich_sts92.jpg",
+"https://apod.nasa.gov/apod/image/0104/ngc1748_hst.jpg"
+]
+}
+```
 
 The response contains errors
-
-<img src="./images/res_Errors.png">
-
+```
+{
+"Errors": [
+"with getDatesList(2001-04-01, 2001-04-00) got error: parsing time \"2001-04-00\": day out of range"
+]
+}
+```
 
 The response contains both errors and correct data
+```
+{
+"Urls": [
+"https://apod.nasa.gov/apod/image/0104/auroraiceland_shs_big.jpg",
+"https://apod.nasa.gov/apod/image/0104/ngc1748_hst.jpg",
+"https://apod.nasa.gov/apod/image/0104/quiddich_sts92.jpg"
+],
+"Errors": [
+"with 2001-04-05 got error: 429 Too Many Requests",
+"with 2001-04-04 got error: 429 Too Many Requests",
+"with 2001-04-06 got error: 429 Too Many Requests"
+]
+}
+```
+
+Demo screenshot
 
 <img src="./images/res_URLs and Errors.png">
