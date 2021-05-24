@@ -2,8 +2,7 @@ package apod
 
 import "encoding/json"
 
-const URL = "https://api.nasa.gov/planetary/apod"
-
+//Apod server Response
 type Response struct {
 	Copyright      string `json:"copyright"`
 	Date           string `json:"date"`
@@ -15,7 +14,6 @@ type Response struct {
 	URL            string `json:"url"`
 }
 
-
 func UnmarshallResponse(response []byte) (resp *Response, err error) {
 	err = json.Unmarshal(response, &resp)
 	if err != nil {
@@ -23,4 +21,3 @@ func UnmarshallResponse(response []byte) (resp *Response, err error) {
 	}
 	return resp, err
 }
-

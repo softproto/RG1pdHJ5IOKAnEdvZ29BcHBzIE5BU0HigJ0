@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("GoGo Space")
+	fmt.Println("GoGoSpace")
 
 	config := getConfigFromEnv()
 	fmt.Println(*config)
@@ -16,6 +16,8 @@ func main() {
 	urlcollector.RunServer(config)
 }
 
+
+//Setting up the app using Env variables
 func getConfigFromEnv() *urlcollector.Config {
 	c := urlcollector.Config{}
 
@@ -27,6 +29,11 @@ func getConfigFromEnv() *urlcollector.Config {
 	port, exists := os.LookupEnv("PORT")
 	if !exists {
 		port = "8080"
+	}
+
+	url, exists := os.LookupEnv("APOD_URL")
+	if !exists {
+		url = "https://api.nasa.gov/planetary/apod"
 	}
 
 	r := os.Getenv("CONCURRENT_REQUESTS")
@@ -53,7 +60,7 @@ func getConfigFromEnv() *urlcollector.Config {
 		clientTimeout = 10
 	}
 
-	c.Setup(apiKey, port, concurrentRequests, transportTimeout, handshakeTimeout, clientTimeout)
+	c.Setup(apiKey, port, url, concurrentRequests, transportTimeout, handshakeTimeout, clientTimeout)
 
 	return &c
 }

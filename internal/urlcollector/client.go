@@ -10,13 +10,14 @@ import (
 	"time"
 )
 
+//Reaching the Apod server with a specific request
 func sendRequest(config *Config, date string, cd *collectedData) {
 	fmt.Println("...sendRequest()")
 	defer fmt.Println("...sendRequest() done")
 
 	client := customHTTPClient(config.transportTimeout, config.handshakeTimeout, config.clientTimeout)
 
-	req, err := http.NewRequest("GET", apod.URL, nil)
+	req, err := http.NewRequest("GET", config.url, nil)
 	if err != nil {
 		cd.collectError(date, err)
 		return
@@ -52,6 +53,7 @@ func sendRequest(config *Config, date string, cd *collectedData) {
 	}
 }
 
+//Preparing a customized hhhp-client
 func customHTTPClient(transportTimeout time.Duration, handshakeTimeout time.Duration, clientTimeout time.Duration) (client *http.Client) {
 	var transport = &http.Transport{
 		Dial:                (&net.Dialer{Timeout: transportTimeout * time.Second}).Dial,

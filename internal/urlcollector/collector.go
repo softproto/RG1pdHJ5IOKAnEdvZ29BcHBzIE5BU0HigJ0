@@ -9,6 +9,7 @@ import (
 
 const dateLayout = "2006-01-02"
 
+//Splitting a date range into a slice of dates
 func getDatesList(startDate, endDate string) (list []string, err error) {
 	fmt.Println("getDatesList()")
 
@@ -36,6 +37,7 @@ func getDatesList(startDate, endDate string) (list []string, err error) {
 	return nil, errors.New("start_date should be before or equal end_date")
 }
 
+//Preparing and concurrently running a pool of urlsFetcher() goroutines with a limit of CONCURRENT_REQUESTS
 func runCollector(config *Config, start_date, end_date string) *collectedData {
 	fmt.Println("runCollector()")
 	defer fmt.Println("runCollector() done")
@@ -67,6 +69,7 @@ func runCollector(config *Config, start_date, end_date string) *collectedData {
 	return &cd
 }
 
+//Fetch URLs from Apod server for each date from dates range
 func urlsFetcher(d chan string, config *Config, wg *sync.WaitGroup, cd *collectedData) {
 	fmt.Println("..urlsFetcher()")
 	defer fmt.Println("..urlsFetcher() done")

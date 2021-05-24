@@ -2,6 +2,7 @@ FROM golang:latest
 
 ENV API_KEY=DEMO_KEY \
     PORT=8080 \
+    APOD_URL=https://api.nasa.gov/planetary/apod \
     CONCURRENT_REQUESTS=5 \
     TRANSPORT_TIMEOUT=5 \
     HANDSGAKE_TIMEOUT=5 \

@@ -7,6 +7,8 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+
+//Prepar and running the urlcollector server with basic routing
 func RunServer(config *Config) {
 	fmt.Println("RunServer()")
 
