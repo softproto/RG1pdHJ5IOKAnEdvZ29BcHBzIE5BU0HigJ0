@@ -10,14 +10,13 @@ import (
 func main() {
 	fmt.Println("GoGo Space")
 
-	config := setup()
-
+	config := getConfigFromEnv()
 	fmt.Println(*config)
 
 	urlcollector.RunServer(config)
 }
 
-func setup() *urlcollector.Config {
+func getConfigFromEnv() *urlcollector.Config {
 	c := urlcollector.Config{}
 
 	apiKey, exists := os.LookupEnv("API_KEY")

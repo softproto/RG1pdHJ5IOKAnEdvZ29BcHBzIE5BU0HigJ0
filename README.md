@@ -1,10 +1,15 @@
-# How to run
+# How to
 
+## run
 ```
 docker build . -t gogospace
 docker run -p 8080:8080 gogospace
 ```
 
+## test
+```
+go test -v ./...
+```
 
 # Description
 
@@ -40,12 +45,13 @@ concurrently. However, in order not to be recognized as a malicious user, a limi
 requests to this external API must exist. Bear in mind, that this limit should never be exceeded
 regardless of how many concurrent requests is the url-collector receiving.
 ### Note
-We are not using the Apod server's ability to handle a date range in a single request due to the Task Description.
+- We are not using the Apod server's ability to handle a date range in a single request due to the Task Description.
+- Considering the fact that there can be both successful and unsuccessful requests for date range, the collected errors are contained in the same report.
 
 
-## Issues found
+# Issues found
 
-- The Apod service does not provide an error result in a unified format
+- The Apod service does not provide an error result in a unified format. For this reason, we cannot correctly collect errors from the Apod server.
 
 Response code 400:
 
@@ -65,7 +71,7 @@ Response code 403
         }
 
 
-## Demo results
+# Demo results
 
 Successful request
 ```
